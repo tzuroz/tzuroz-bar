@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="https://cdn.glitch.global/61b94003-abf9-4fe0-a946-23ddf7007087/android-chrome-512x512.png?v=1742921062133">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tzuroz's Bar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <h1>🍸 Tzuroz's Bar</h1>
+
+    <label for="categorySelect">Choose a category:</label>
+    <select id="categorySelect"></select>
+
+    <label for="drinkSelect">Choose a cocktail:</label>
+    <select id="drinkSelect"></select>
+    
+    <label for="ingredientSelect">Search by Ingredient:</label>
+    <select id="ingredientSelect">
+      <option value="">-- Select an ingredient --</option>
+    </select>
+    <div id="ingredientResults"></div>
+
+
+
+    <div id="cocktailDisplay" class="card">
+  <!-- Cocktail info will be injected here via JS -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
