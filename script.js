@@ -133,11 +133,29 @@ function populateIngredientSelect(cocktails) {
     ingredientSelect.appendChild(option);
   });
 
+/*
   ingredientSelect.addEventListener("change", () => {
     const selectedIngredient = ingredientSelect.value;
     const matchingCocktails = cocktails.filter(cocktail => cocktail[selectedIngredient]?.trim() !== "");
     displayCocktailMatches(matchingCocktails);
   });
+  */
+  
+  ingredientSelect.addEventListener("change", () => {
+	const selectedIngredient = ingredientSelect.value;
+	const matchingCocktails = cocktails.filter(cocktail => cocktail[selectedIngredient]?.trim() !== "");
+	displayCocktailMatches(matchingCocktails);
+
+	//Guardar estado no histórico
+	history.pushState(
+		{ type: "ingredient", ingredient: selectedIngredient },
+		"",
+		`?ingredient=${encodeURIComponent(selectedIngredient)}`
+	);
+});
+  
+  
+  
 }
 
 // Display matching cocktails
@@ -193,6 +211,49 @@ function selectCocktailFromIngredient(cocktail) {
 
   // Clear ingredient results
   ingredientResults.innerHTML = "";
+  
+  
+  // Guardar no histórico a navegação para o cocktail
+  history.pushState(
+    {
+      type: "cocktail",
+      ingredient: ingredientSelect.value,
+      cocktail: cocktail["Cocktail Name"]
+    },
+    "",
+    `?ingredient=${encodeURIComponent(ingredientSelect.value)}&cocktail=${encodeURIComponent(cocktail["Cocktail Name"])}`
+  );
+  
+  
+  
+  
+  window.addEventListener("popstate", (event) => {
+  const state = event.state;
+
+  if (!state) {
+    // Página carregada sem estado → mostra o default
+    document.getElementById("ingredientResults").innerHTML = "";
+    return;
+  }
+
+  if (state.type === "ingredient") {
+    // Voltar à lista filtrada
+    const ingredientSelect = document.getElementById("ingredientSelect");
+    ingredientSelect.value = state.ingredient;
+
+    const matches = allCocktails.filter(c => c[state.ingredient]?.trim() !== "");
+    displayCocktailMatches(matches);
+  }
+
+  if (state.type === "cocktail") {
+    // Voltar ao cocktail
+    const cocktail = allCocktails.find(c => c["Cocktail Name"] === state.cocktail);
+    if (cocktail) {
+      displayCocktail(cocktail);
+    }
+  }
+});
+  
 }
 
 
